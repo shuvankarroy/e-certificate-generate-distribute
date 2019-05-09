@@ -20,8 +20,15 @@ certificateCount = 0
 
 with open('e-certificate receiver.csv', 'r') as csvFile:
     reader = csv.reader(csvFile)
-    for row in reader:
+    # to remove the header from .csv file
+    has_header = csv.Sniffer().has_header(csvFile.read(1024))
+    csvFile.seek(0)  # Rewind.
     
+    if has_header:
+        # go to next row if header is present in the .csv file
+        next(reader)
+
+    for row in reader:   
         print(row[0], titlecase(row[1]))
         participentName = titlecase(row[1])
         
